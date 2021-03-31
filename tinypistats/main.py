@@ -42,8 +42,8 @@ def main_loop(oled):
         draw.text((0, 0), get_ip_address_line(), font=font, fill=255)
         draw.text((0, font_height + MARGIN), get_cpu_line(), font=font, fill=255)
         draw.text((0, font_height*2 + MARGIN*2), get_memory_line(), font=font, fill=255)
-        draw.text((0, font_height*3 + MARGIN*3), get_uptime_line(), font=font, fill=255)
-        draw.text((0, font_height*4 + MARGIN*4), get_cpu_temp_line(), font=font, fill=255)
+        draw.text((0, font_height*3 + MARGIN*3), get_disk_line(), font=font, fill=255)
+        draw.text((0, font_height*4 + MARGIN*4), get_uptime_line(), font=font, fill=255)
 
         oled.image(image)
         oled.show()
@@ -65,12 +65,20 @@ def get_ip_address_line():
     return 'IP: {}'.format(get_ip_address())
 
 def get_cpu_line():
-    return 'CPU: {}%'.format(psutil.cpu_percent())
+    usage = '{}%'.format(psutil.cpu_percent())
+    temp = '{:.1f}\xb0F'.format(CPUTemperature().temperature * (9/5) + 32)
+    return 'CPU: {0:<6} {1}'.format(usage, temp)
 
 def get_memory_line():
-    total_memory = psutil.virtual_memory().total / 1024 / 1024 / 1024
+    total_memory = psutil.virtual_memory().total  / 1024 / 1024 / 1024
     used_memory = psutil.virtual_memory().used / 1024 / 1024 / 1024
-    return 'Memory: {:.2f}/{:.2f}GB'.format(used_memory, total_memory)
+    return 'Memory: {:.1f}/{:.1f}GB'.format(used_memory, total_memory)
+
+def get_disk_line():
+    hdd = psutil.disk_usage('/')
+    used = hdd.used / (2**30)
+    total = hdd.total / (2**30)
+    return 'Disk: {:.1f}/{:.1f}GB'.format(used, total)
 
 def get_uptime_line():
     uptime = time.time() - psutil.boot_time() # Uptime in seconds
@@ -81,10 +89,6 @@ def get_uptime_line():
     mins = rem / 60
     sec = rem % 60
     return 'Uptime: %03d:%02d:%02d:%02d' % (days, hours, mins, sec)
-
-def get_cpu_temp_line():
-    temp = CPUTemperature().temperature * (9/5) + 32
-    return 'CPU Temp: {:.1f}\xb0F'.format(temp)
 
 def get_display():
     return adafruit_ssd1306.SSD1306_I2C(DISPLAY_WIDTH, DISPLAY_HEIGHT, board.I2C(), addr=I2C_ADDR)
