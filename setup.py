@@ -13,7 +13,7 @@ setup(
         install_requires=[
             'adafruit-circuitpython-ssd1306>=2.11.2',
             'gpiozero>=1.6.2',
-            'Pillow>=5.4.1'
+            'Pillow>=5.4.1',
             'psutil>=5.8.0'
         ],
         keywords=['python', 'pi', 'raspberry', 'oled', 'stats'],
