@@ -15,7 +15,9 @@ setup(
         description="View Raspberry Pi stats on a tiny OLED display",
         long_description=long_description,
         license="Apache License, Version 2.0",
+        url="https://github.com/avojak/tinypistats",
         packages=find_packages(),
+        scripts=['bin/tinypistats'],
         install_requires=[
             'adafruit-circuitpython-ssd1306>=2.11.2',
             'gpiozero>=1.6.2',
