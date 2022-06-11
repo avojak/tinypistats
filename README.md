@@ -1,6 +1,8 @@
 # TinyPiStats
 
-View Raspberry Pi stats on a tiny OLED display
+View Raspberry Pi stats on a tiny OLED display.
+
+Note: I mostly just threw this together to play around with the little I2C displays I bought. The code needs some work to really be reliable.
 
 ## Prerequisites
 
