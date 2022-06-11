@@ -17,7 +17,7 @@ Build requirements:
 $ pip install -r requirements.txt
 ```
 
-On some Pis you may need to also `apt install` libopenjp2-7.
+On some Pis you may need to also `apt install libopenjp2-7`.
 
 ## Usage
 
